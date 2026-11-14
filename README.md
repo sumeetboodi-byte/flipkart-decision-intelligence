@@ -24,3 +24,21 @@ R2.3 The blind accuracy is 0.7875, which is close to the τ=0.5 accuracy of 0.80
 R2.4 The logistic model at τ=0.3 significantly outperforms the KNN model (best K=5). The logistic model achieves an f1 of 0.5714 and recall of 0.7451, compared to the KNN model's f1 of 0.3696 and recall of 0.3333. 
 
 R2.5 I would deploy the logistic regression model with a threshold of τ=0.15. This threshold minimizes the financial cost to INR 6050 on the test set, which is far better than the cost at τ=0.5 (INR 11800) or the cost of flagging nobody (INR 20400). The threshold was chosen on the training rows (rather than test rows) to prevent data leakage and ensure the model generalizes to unseen data.
+
+
+## Part 3 findings
+
+R3.1 The four successive WCSS drops are: WCSS(2)-WCSS(3) = 659.83, WCSS(3)-WCSS(4) = 108.07, WCSS(4)-WCSS(5) = 171.06, and WCSS(5)-WCSS(6) = 45.55. The elbow supports K=3 because it is the point where the drop becomes less than half of the previous drop. Note that the drops do not shrink steadily (the drop from 4 to 5 is larger than 3 to 4), which indicates that the pinned starting rows give a reproducible solution, not necessarily the global optimum.
+
+R3.2 
+- Segment A (Premium Loyal):** These are long-tenure customers with low complaints and low discount reliance. Action: Offer exclusive early access to new products to maintain loyalty.
+- Segment B (High-Value Friction):** These customers have high average order values but also high complaint counts. Action: Proactively reach out to resolve complaints and offer personalized retention offers.
+- Segment C (Bargain Churners):** These are newer customers who rely heavily on discounts. Action: Send targeted discount coupons to prevent them from leaving.
+Segment C has the highest outcome_rate at 0.4664, indicating it is the most at-risk segment.
+
+R3.3 
+- Single linkage clusters at cut:** {E2, E3, E6}, {E1}, {E4}, {E5}.
+- Complete linkage clusters at cut:** {E2, E3, E6}, {E1, E4, E5}.
+The two rules disagree because single linkage uses the minimum distance between any two points (which causes a "chaining" effect, linking E1 to E4+E5), whereas complete linkage uses the maximum distance, forcing clusters to be tightly packed and keeping E1 separate.
+
+R3.4 The first component is driven primarily by X1 (0.5317) and X5 (0.4418) in the positive direction, and X3 (-0.5187) and X2 (-0.4100) in the negative direction. We need 3 components to keep at least 80% of the variance. The mean_pc1_segment_A/B/C values (1.7773, -0.7831, -1.6709) show that Segment A is strongly separated from Segments B and C along the first principal component, capturing the biggest differences in customer profiles.
